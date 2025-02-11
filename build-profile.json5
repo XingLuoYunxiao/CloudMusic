@@ -1,0 +1,55 @@
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\XingLuoYunxiao\\.ohos\\config\\default_CloudMusic_o1jberiqbnDsFZYtsmCKNJ8BLWamIPMthHnANpyIlvc=.cer",
+          "storePassword": "0000001AA2EDD9FACFBDA9963365C9FBF865D6EC9D9CA93FD554297E6B1AFC164D8454BF29285032B62D",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001A76404E8B69DD51DF2E01D9A4FD3819214083699804D356E0880603400A88D02350D0B7B1CED5",
+          "profile": "C:\\Users\\XingLuoYunxiao\\.ohos\\config\\default_CloudMusic_o1jberiqbnDsFZYtsmCKNJ8BLWamIPMthHnANpyIlvc=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\XingLuoYunxiao\\.ohos\\config\\default_CloudMusic_o1jberiqbnDsFZYtsmCKNJ8BLWamIPMthHnANpyIlvc=.p12"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "compatibleSdkVersion": "5.0.2(14)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug",
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "云音乐"
+    },
+    {
+      "name": "EntryFormAbility_desc",
+      "value": "form_description"
+    },
+    {
+      "name": "EntryFormAbility_label",
+      "value": "form_label"
+    },
+    {
+      "name": "App_name",
+      "value": "云音乐"
+    },
+    {
+      "name": "MICROPHONE_REASON",
+      "value": "用于录音"
+    },
+    {
+      "name": "widget_desc",
+      "value": "This is a service widget."
+    },
+    {
+      "name": "widget_display_name",
+      "value": "widget"
+    },
+    {
+      "name": "CloudMusic_desc",
+      "value": "This is a service widget."
+    },
+    {
+      "name": "CloudMusic_display_name",
+      "value": "widget"
+    },
+    {
+      "name": "CloudMusicCard_desc",
+      "value": "This is a service widget."
+    },
+    {
+      "name": "CloudMusicCard_display_name",
+      "value": "widget"
+    }
+  ]
+}
