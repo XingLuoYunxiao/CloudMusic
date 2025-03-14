@@ -10,6 +10,13 @@ export enum PublishEventType {
 
 export const playStateKey = 'PlayStateKey'
 
-//persistence键
-export const SONG_KEY = 'PERSISTENCE_SONG_KEY'
 
+//appstorage_key
+
+//persistenceV2键
+export const SONG_KEY = 'PERSISTENCE_SONG_KEY'
+export const LOGIN_KEY = 'LOGIN_KEY'
+export const COLOR_MODE_KEY = 'COLOR_MODE_KEY'
+export const ENABLE_DARK_MODE_KEY = 'ENABLE_DARK_MODE_KEY'
+export const IS_FOLLOW_SYSTEM_SETTING_KEY = 'IS_FOLLOW_SYSTEM_SETTING_KEY'
+export const NICK_IMAGE_KEY = 'NICK_IMAGE_KEY'

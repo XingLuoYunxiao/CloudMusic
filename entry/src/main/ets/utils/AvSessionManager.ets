@@ -1,5 +1,5 @@
 import { avSession } from '@kit.AVSessionKit';
-import { songItemType } from '../model';
+import { songItemType } from '../model/playState';
 import AVPlayerClass from './AVPlayerClass';
 
 export class AvSessionManager{

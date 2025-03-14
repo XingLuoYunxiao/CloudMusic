@@ -1,4 +1,4 @@
-import { songItemType } from "."
+import { songItemType } from './playState'
 
 export interface recommendListType {
   img: string

@@ -17,7 +17,14 @@
         "name": "ohos.permission.INTERNET"
       },
       {
-        "name": "ohos.permission.KEEP_BACKGROUND_RUNNING"
+        "name": "ohos.permission.KEEP_BACKGROUND_RUNNING",
+        "reason": "$string:BACKGROUND_RUNNING_REASON",
+        "usedScene": {
+          "abilities": [
+            "FormAbility"
+          ],
+          "when":"always"
+        }
       },
       {
         "name": 'ohos.permission.MICROPHONE',
@@ -49,6 +56,10 @@
               "action.system.home"
             ]
           }
+        ],
+        "backgroundModes": [
+          "audioPlayback",
+          "audioRecording"
         ]
       }
     ],

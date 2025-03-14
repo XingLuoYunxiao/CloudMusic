@@ -1,9 +1,9 @@
-import { PlayStateType, songItemType } from '../model';
 import AVPlayerClass from '../utils/AVPlayerClass';
-import { PLAY_KEY, PreferenceManager } from '../utils/PreferencesManager';
 import animator, { AnimatorResult } from '@ohos.animator';
 import { SONG_KEY } from '../constants/EventConstants';
 import { PersistenceV2 } from '@kit.ArkUI';
+import { PlayStateType, songItemType } from '../model/playState';
+import CommentDisplay from '../components/CommentDisplay';
 
 @Entry
 @ComponentV2
@@ -11,6 +11,9 @@ struct Play {
   @Local opacityNum: number = 1
   @Local panelHeight: string = '0%'
   @Local AVPlayer: AVPlayerClass = AVPlayerClass.getInstance()
+  // 控制评论气泡
+  @Local customPopup: boolean = false
+
   //private preferencesInstance: PreferenceManager = PreferenceManager.getInstance()
 
   // 订阅事件
@@ -22,7 +25,7 @@ struct Play {
   @Local randomShakenY: number = 0
   @Local rotateAngle: number = 0
   @Local time: boolean = true
-  animatorResult: AnimatorResult = animator.create({
+  @Local animatorResult: AnimatorResult = animator.create({
     duration: 1000 * 15,
     easing: "linear",
     delay: 0,
@@ -32,8 +35,11 @@ struct Play {
     begin: 0,
     end: 360
   })
-  // 控制页面按钮是否能点击
-  //@Local btnEnable: boolean = true
+
+  // popup构造器定义弹框内容
+  @Builder popupBuilder() {
+    CommentDisplay()
+  }
 
   async aboutToAppear() {
     /*emitter.on({ eventId: EmitEventType.UPDATE_STATE }, (data) => {
@@ -71,7 +77,7 @@ struct Play {
       .padStart(2, '0')
   }
 
-  @Monitor('playState.time')
+  @Monitor("playState.time","playState.isPlay")
   changeAnimate(monitor: IMonitor) {
     if( this.playState.isPlay){
       //控制颜色变化间隔
@@ -106,6 +112,10 @@ struct Play {
       .onClick(() => {
         this.AVPlayer.remove(index);
       })
+  }
+
+  onPageHide(): void {
+    PersistenceV2.save(SONG_KEY)
   }
 
 
@@ -229,6 +239,29 @@ struct Play {
                   .fillColor(Color.White)
                   .width(18)
               }
+              .onAppear(() => {
+                this.customPopup = true
+              }
+              )
+              .onClick(() => {
+                this.customPopup = !this.customPopup
+              })
+              .bindPopup(this.customPopup, {
+                builder: this.popupBuilder,
+                placement: Placement.Top,
+                popupColor: "#4D000000",
+                showInSubWindow: false,
+                mask:false,
+                autoCancel: false,
+                onStateChange: (e) => {
+                  if (!e.isVisible) {
+                    this.customPopup = false
+                  }
+                },
+                // 设置弹窗显示动效与退出动效为缩放动效
+                transition:TransitionEffect.scale({ x: 1, y: 0 }).animation({ duration: 500, curve: Curve.Ease })
+              })
+
 
               Badge({ value: 'hot', style: { badgeSize: 12, badgeColor: '#a8ff3131' } }) {
                 Image($r("app.media.ic_bells_o"))

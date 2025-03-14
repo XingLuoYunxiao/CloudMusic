@@ -1,17 +1,22 @@
-import { momentListType } from '../model'
 import { momentList } from '../model/MusicConstants'
 import AVPlayerClass from '../utils/AVPlayerClass'
+import { PersistenceV2 } from '@kit.ArkUI'
+import { NumberKey } from '../model/Key'
+import { COLOR_MODE_KEY } from '../constants/EventConstants'
+import { momentListType } from '../model/music'
 
 @Entry
 @ComponentV2
 struct Moment {
   @Local AVPlayer: AVPlayerClass = AVPlayerClass.getInstance()
+  @Local currentColorMode: NumberKey = PersistenceV2.connect(NumberKey, COLOR_MODE_KEY, () => new NumberKey(0))!
+
 
   build() {
     Column() {
       Row() {
         Text('互动广场')
-          .fontColor('#eaeaec')
+          .fontColor($r('app.color.font_color'))
       }
       .padding(24)
       .width('100%')
@@ -29,10 +34,10 @@ struct Moment {
                 Column({ space: 12 }) {
                   // 作者
                   Text(item.author)
-                    .fontColor('#e9e9e7')
+                    .fontColor($r('app.color.font_color'))
                   // 内容
                   Text(item.content)
-                    .fontColor('#aaa9af')
+                    .fontColor(this.currentColorMode.key === 1 ? Color.Black :'#aaa9af')
                     .fontSize(12)
                   // 音乐卡片
                   Row() {
@@ -72,7 +77,7 @@ struct Moment {
                         .width(20)
                         .fillColor('#c9c8cd')
                       Text('分享')
-                        .fontColor('#9e9da2')
+                        .fontColor(this.currentColorMode.key === 1 ? Color.Black :'#aaa9af')
                         .fontSize(12)
                         .margin({ left: 4 })
                     }
@@ -80,9 +85,9 @@ struct Moment {
                     Row() {
                       Image($r('app.media.ic_comment_o'))
                         .width(20)
-                        .fillColor('#c9c8cd')
+                        .fillColor(this.currentColorMode.key === 1 ? Color.Gray : '#c9c8cd')
                       Text(item.comment.toString())
-                        .fontColor('#9e9da2')
+                        .fontColor(this.currentColorMode.key === 1 ? Color.Gray :'#aaa9af')
                         .fontSize(12)
                         .margin({ left: 4 })
                     }
@@ -90,9 +95,9 @@ struct Moment {
                     Row() {
                       Image($r('app.media.ic_like'))
                         .width(20)
-                        .fillColor('#c9c8cd')
+                        .fillColor(this.currentColorMode.key === 1 ? Color.Red :'#c9c8cd' )
                       Text(item.like.toString())
-                        .fontColor('#9e9da2')
+                        .fontColor(this.currentColorMode.key === 1 ? Color.Gray :'#aaa9af')
                         .fontSize(12)
                         .margin({ left: 4 })
                     }
@@ -129,6 +134,7 @@ struct Moment {
       }
       .layoutWeight(1)
     }
+    .backgroundColor($r('app.color.app_background_color'))
     .width('100%')
     .height('100%')
   }

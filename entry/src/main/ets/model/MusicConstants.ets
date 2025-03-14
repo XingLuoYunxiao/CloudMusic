@@ -1,4 +1,6 @@
-import { favoriteListType, momentListType, recommendDailyType, recommendListType, songItemType, TabClass } from '.'
+import { favoriteListType, momentListType, recommendDailyType, recommendListType } from './music';
+import { songItemType } from './playState';
+import { TabClass } from './TabClass';
 
 // TabBar数据
 export const tabsData: TabClass[] = [
@@ -113,121 +115,247 @@ const config: GeneratedObjectLiteralInterface_1 = {
 };
 
 
-// 歌曲列表
 export const songs: songItemType[] = [
-  {
-    img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/0.jpg',
-    name: '直到世界的尽头',
-    author: 'WANDS',
-    url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/0.m4a',
-    id: '0000'
-  },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/1.jpg',
     name: '画',
     author: '赵磊',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/1.mp3',
-    id: '0001'
+    id: '0000',
+    commentList: [
+      '赵磊的嗓音太温柔了，像清风拂面，唱到心坎里了。',
+      '歌词写的好美，意境悠远，仿佛置身于一幅山水画中。',
+      '循环播放好几天了，越听越喜欢，安静又治愈。',
+      '适合在午后阳光下静静聆听，感受生活的美好。',
+      '简单却动听的旋律，耐人寻味，越听越有味道。',
+      '这首歌真的像它的名字一样，是一幅声音的画作。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/2.jpg',
     name: 'Sweet Dreams',
     author: 'TPaul Sax / Eurythmics',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/2.mp3',
-    id: '0002'
+    id: '0001',
+    commentList: [
+      '经典老歌，前奏一响就感觉回到了80年代，满满的回忆！',
+      '合成器的运用太棒了，迷幻又抓耳，非常有特色。',
+      'Annie Lennox的嗓音太有辨识度了，空灵又充满力量。',
+      '节奏感很强，忍不住跟着摇摆，非常适合跳舞！',
+      '百听不厌的经典，每次听都有新的感觉。',
+      '这首歌的MV也很有创意，视觉和听觉的双重享受。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/3.jpg',
     name: '奢香夫人',
     author: '凤凰传奇',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/3.m4a',
-    id: '0003'
+    id: '0002',
+    commentList: [
+      '凤凰传奇的歌就是这么大气磅礴，听着就想跳广场舞！',
+      '民族风的歌曲就是好听，旋律朗朗上口，节奏感十足。',
+      '奢香夫人的故事很感人，这首歌唱出了她的坚韧和伟大。',
+      '广场舞神曲，老少皆宜，全民都在跳！',
+      '每次听到这首歌都感觉心情舒畅，充满活力。',
+      '凤凰传奇的歌就是有魔力，听了就停不下来！'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/4.jpg',
     name: '空心',
     author: '光泽',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/4.mp3',
-    id: '0004'
+    id: '0003',
+    commentList: [
+      '光泽的嗓音太有磁性了，唱这种苦情歌真的绝了，听得心都碎了。',
+      '歌词写得太扎心了，句句戳中痛点，唱出了失恋后的空虚和寂寞。',
+      '旋律很悲伤，越听越难过，但又忍不住一直听下去。',
+      '深夜听这首歌，更容易emo，但也很容易找到共鸣。',
+      '光泽的唱功真的强，情感表达太到位了，听哭了。',
+      '这首歌唱出了很多人的心声，引起了大家的共鸣。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/5.jpg',
     name: '反转地球',
     author: '潘玮柏',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/5.mp3',
-    id: '0005'
+    id: '0004',
+    commentList: [
+      '潘玮柏的歌就是青春的回忆，这首反转地球当年真的太火了！',
+      '动感的节奏，欢快的旋律，听着就想跟着一起跳舞！',
+      '潘玮柏的rap还是这么有活力，充满能量！',
+      '这首歌的MV也很有意思，反转的剧情让人印象深刻。',
+      '每次听到这首歌都感觉心情很好，充满正能量。',
+      '潘玮柏的经典舞曲，KTV必点！'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/6.jpg',
     name: 'No.9',
     author: 'T-ara',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/6.m4a',
-    id: '0006'
+    id: '0005',
+    commentList: [
+      'T-ara的经典舞曲，性感又动感，百听不厌！',
+      '皇冠团的颜值和实力都在线，这首歌的舞蹈也很有魅力。',
+      '旋律洗脑，节奏感强，听了就想跟着一起跳！',
+      '当年循环播放的歌，满满的回忆！',
+      'T-ara的歌真的很有中毒性，听了就停不下来。',
+      '这首歌的舞台表演太精彩了，值得一看再看。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/7.jpg',
     name: '孤独',
     author: 'G.E.M.邓紫棋',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/7.m4a',
-    id: '0007'
+    id: '0006',
+    commentList: [
+      '邓紫棋的唱功真的太强了，高音太震撼了，鸡皮疙瘩都起来了！',
+      '歌词写得好真实，唱出了都市人的孤独感，很有共鸣。',
+      '旋律很抓人，副歌部分太好听了，忍不住单曲循环。',
+      '深夜听这首歌，更容易感受到孤独，但也更容易被治愈。',
+      '邓紫棋的情感表达太到位了，听得心都揪起来了。',
+      '这首歌唱出了很多人的心声，引起了大家的共鸣和思考。'
+    ]
   },
-
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/8.jpg',
     name: 'Lose Control',
     author: 'Hedley',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/8.m4a',
-    id: '0008'
+    id: '0007',
+    commentList: [
+      'Hedley的歌真的很有活力，这首Lose Control节奏感超强！',
+      '主唱的声音太有爆发力了，摇滚范儿十足！',
+      '前奏一响就感觉热血沸腾，忍不住跟着一起嗨起来！',
+      '很适合在运动的时候听，充满力量！',
+      'Hedley的现场也很棒，气氛燃爆！',
+      '这首歌的歌词也很积极向上，激励人心。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/9.jpg',
     name: '倩女幽魂',
     author: '张国荣',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/9.m4a',
-    id: '0009'
+    id: '0008',
+    commentList: [
+      '哥哥的经典之作，永远的哥哥，永远的宁采臣！',
+      '歌声温柔深情，把宁采臣和聂小倩的爱情故事唱得凄美动人。',
+      '旋律优美动听，充满中国古典韵味。',
+      '每次听这首歌都感觉很感动，想起了电影里的场景。',
+      '哥哥的嗓音太有魅力了，听了就让人沉醉其中。',
+      '这首歌是经典中的经典，无可替代。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/10.jpg',
     name: '北京北京',
     author: '汪峰',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/10.m4a',
-    id: '0010'
+    id: '0019',
+    commentList: [
+      '汪峰的歌总是这么有力量，这首北京北京唱出了漂泊在外的无奈和梦想。',
+      '歌词写得太真实了，句句戳中北漂的心，引起了无数人的共鸣。',
+      '旋律激昂，充满激情，听着就让人热血沸腾。',
+      '汪峰的摇滚嗓音太有感染力了，唱出了北京的繁华和孤独。',
+      '每次听这首歌都感觉很感慨，想起了在北京奋斗的日子。',
+      '这首歌是献给所有在北京奋斗的人们的赞歌。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/11.jpg',
     name: '苦笑',
     author: '汪苏泷',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/11.mp3',
-    id: '0011'
+    id: '0010',
+    commentList: [
+      '汪苏泷的歌总是这么青春伤感，这首苦笑唱出了暗恋的酸涩和无奈。',
+      '歌词写得很细腻，描绘了暗恋者的心理活动，引起了很多人的共鸣。',
+      '旋律清新动听，副歌部分很抓耳，容易单曲循环。',
+      '汪苏泷的嗓音很温柔，唱这种情歌很合适，听着很舒服。',
+      '每次听这首歌都感觉回到了青涩的校园时光，想起了暗恋的那个人。',
+      '这首歌是青春的回忆，也是很多人暗恋的写照。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/12.jpg',
     name: '一生所爱',
     author: '卢冠廷 / 莫文蔚',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/12.m4a',
-    id: '0012'
+    id: '0011',
+    commentList: [
+      '经典中的经典，无法超越的一生所爱，每次听都泪目。',
+      '卢冠廷的嗓音沧桑深情，莫文蔚的女声温柔婉转，男女对唱太好听了。',
+      '歌词写得太经典了，充满了遗憾和无奈，但又让人感动。',
+      '旋律悲伤动人，前奏一起就让人想起了大话西游的场景。',
+      '每次听这首歌都感觉很伤感，想起了紫霞仙子和至尊宝的爱情。',
+      '这首歌是爱情的绝唱，也是无数人心中的痛。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/13.jpg',
     name: '月半小夜曲',
     author: '李克勤',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/13.mp3',
-    id: '0013'
+    id: '0012',
+    commentList: [
+      '李克勤的经典粤语歌，粤语歌的魅力就在于此，韵味十足。',
+      '歌词写得很有意境，描绘了月夜的孤独和思念之情。',
+      '旋律优美动听，李克勤的唱腔温柔细腻，听着很舒服。',
+      '适合在安静的夜晚聆听，感受月光的温柔和歌曲的意境。',
+      '每次听这首歌都感觉很平静，心也静下来了。',
+      '粤语歌的经典之作，值得细细品味。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/14.jpg',
     name: 'Rolling in the Deep',
     author: 'Adele',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/14.m4a',
-    id: '0014'
+    id: '0013',
+    commentList: [
+      'Adele的爆发力太强了，这首歌的高音真的震撼人心！',
+      '歌词写得很有力量，唱出了失恋后的坚强和反击。',
+      '旋律大气磅礴，副歌部分太好听了，忍不住跟着一起唱。',
+      'Adele的嗓音太有磁性了，听了就让人沉醉其中。',
+      '每次听这首歌都感觉充满了力量，可以面对一切困难。',
+      'Adele的代表作之一，也是欧美乐坛的经典之作。'
+    ]
   },
   {
     img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/15.jpg',
     name: '海阔天空',
     author: 'Beyond',
     url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/15.m4a',
-    id: '0015'
-  }
+    id: '0014',
+    commentList: [
+      'Beyond的经典之作，永远的海阔天空，永远的家驹！',
+      '歌词写得太励志了，充满了希望和梦想，激励了一代又一代人。',
+      '旋律激昂澎湃，前奏一起就让人热血沸腾，充满力量。',
+      '家驹的嗓音太有穿透力了，唱出了自由和梦想的渴望。',
+      '每次听这首歌都感觉很感动，想起了家驹，也想起了自己的梦想。',
+      '这首歌是Beyond的精神象征，也是香港乐坛的永恒经典。'
+    ]
+  },
+  {
+    img: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/0.jpg',
+    name: '直到世界的尽头',
+    author: 'WANDS',
+    url: 'http://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/HeimaCloudMusic/0.m4a',
+    id: '0015',
+    commentList: [
+      '爷青回！灌篮高手永远的神！',
+      '前奏一响，瞬间回到热血沸腾的青春！',
+      '每次听到这首歌都感觉充满了力量，永不放弃！',
+      '动漫神曲，无可替代的经典！',
+      'WANDS的巅峰之作，现场版更是燃爆！',
+      '这首歌激励了一代人，太经典了！'
+    ]
+  },
 ]
 
 // 喜欢列表

@@ -1,12 +1,18 @@
-import { songItemType } from '../model'
-import { favoriteList } from '../model/MusicConstants'
+import { NumberKey } from '../model/Key'
+import { favoriteList, swiperList } from '../model/MusicConstants'
 import AVPlayerClass from '../utils/AVPlayerClass'
+import { PersistenceV2 } from '@kit.ArkUI'
+import { COLOR_MODE_KEY } from '../constants/EventConstants'
+import { songItemType } from '../model/playState'
 
 
 @Entry
 @ComponentV2
 struct SongList {
+  @Local currentColorMode: NumberKey = PersistenceV2.connect(NumberKey, COLOR_MODE_KEY, () => new NumberKey(0))!
   @Local AVPlayer: AVPlayerClass = AVPlayerClass.getInstance()
+
+
   build() {
     Column() {
       // 播放页
@@ -30,10 +36,10 @@ struct SongList {
             Column({ space: 12 }) {
               Text(favoriteList.name)
                 .fontWeight(FontWeight.Bold)
-                .fontColor(Color.White)
+                .fontColor(this.currentColorMode.key === 1 ? Color.Black : Color.White)
               Text(favoriteList.nickName)
                 .fontSize(12)
-                .fontColor('#ffa49a9a')
+                .fontColor(this.currentColorMode.key === 1 ? Color.Black :'#ffa49a9a')
               Blank()
             }
             .alignItems(HorizontalAlign.Start)
@@ -109,7 +115,7 @@ struct SongList {
                 .width(16)
                 .fillColor('#ff5186')
               Text(`播放全部 (${favoriteList.songs.length})`)
-                .fontColor(Color.White)
+                .fontColor($r('app.color.font_color'))
                 .fontSize(14)
             }
             .onClick(() => {
@@ -135,7 +141,7 @@ struct SongList {
                       if (index === 0) {
                         Text((index + 1).toString())
                           .fontWeight(FontWeight.Bold)
-                          .fontColor('#ffffe426')
+                          .fontColor('#ffffa811')
                       } else if (index === 1) {
                         Text((index + 1).toString())
                           .fontColor($r('app.color.primary_light'))
@@ -163,7 +169,7 @@ struct SongList {
                       Column() {
                         Text(item.name)
                           .fontSize(14)
-                          .fontColor('#ffa49a9a')
+                          .fontColor(this.currentColorMode.key === 1 ? Color.Black :'#ffa49a9a')
                         Text(item.author)
                           .fontSize(12)
                           .fontColor(Color.Gray)
@@ -208,14 +214,14 @@ struct SongList {
         }
         .layoutWeight(1)
         .width('100%')
-        .backgroundColor('#ff353333')
+        .backgroundColor($r('app.color.app_background_color'))
         .borderRadius({ topLeft: 12, topRight: 12 })
       }
       .layoutWeight(1)
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#121215')
+    .backgroundColor($r('app.color.app_background_color'))
   }
 }
 

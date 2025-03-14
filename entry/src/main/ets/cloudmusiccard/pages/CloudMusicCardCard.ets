@@ -8,11 +8,12 @@ struct CloudMusicCard{
 
   @Watch('changeAnimate')
   @LocalStorageProp('playState') playState: PlayStateType = new PlayStateType()
+  @LocalStorageProp('songName') songName: string = ""
   //展示图片的地址（用图片名称展示）
   @LocalStorageProp('fileName') fileName: string = ""
 
   changeAnimate() {
-    console.log("testTag ", this.fileName)
+    console.log("testTag ", this.fileName,JSON.stringify(this.playState))
     this.randomColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')'
   }
 
@@ -24,6 +25,7 @@ struct CloudMusicCard{
           .width('100%')
           .height('100%')
           .blur(300)
+
         Column() {
           Row() {
             Row() {
@@ -86,6 +88,11 @@ struct CloudMusicCard{
                   }
                 })
               })
+            Text(this.songName)
+              .fontSize(14)
+              .fontStyle(FontStyle.Italic)
+              .fontColor(Color.White)
+
             // 下一首
             Image($r('app.media.ic_next'))
               .fillColor(Color.White)
@@ -103,6 +110,7 @@ struct CloudMusicCard{
           .height('20%')
           .padding({ left: 10, right: 10 })
           .justifyContent(FlexAlign.SpaceBetween)
+
         }
       }
     }

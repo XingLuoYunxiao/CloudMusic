@@ -1,7 +1,7 @@
-import { PlayStateType } from '../model'
 import AVPlayerClass from '../utils/AVPlayerClass'
 import { PersistenceV2 } from '@kit.ArkUI'
 import { SONG_KEY } from '../constants/EventConstants'
+import { PlayStateType } from '../model/playState'
 
 @ComponentV2
 struct PlayerNav {

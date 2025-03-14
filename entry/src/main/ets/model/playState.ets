@@ -9,6 +9,7 @@ export class songItemType {
   @Trace author: string = ''
   @Trace url: string = ''
   @Trace id: string = ''
+  @Trace commentList: string[] = []
 
 }
 
@@ -22,7 +23,7 @@ export class PlayStateType {
   @Trace time: number = 0 // 播放时间
   @Trace duration: number = 0 // 音乐的播放时长
   @Trace isPlay: boolean = false // 是否正在播放
-  @Trace playMode: 'auto' | 'repeat' | 'random' = "auto" // 播放模式
+  @Trace playMode: string = "auto" // 播放模式
   @Type(songItemType)
   @Trace playList: songItemType[] = []; // 当前的播放列表
   //cacheImg?: string // 缓存图片地址

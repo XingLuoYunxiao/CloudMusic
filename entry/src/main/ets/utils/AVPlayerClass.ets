@@ -1,5 +1,5 @@
 import { media } from '@kit.MediaKit';
-import { commonEventManager } from '@kit.BasicServicesKit';
+import { BusinessError, commonEventManager } from '@kit.BasicServicesKit';
 import { PublishEventType, SONG_KEY } from '../constants/EventConstants';
 import { PersistenceV2, router } from '@kit.ArkUI';
 import { FORM_ID_KEY, PLAY_KEY, PreferenceManager } from './PreferencesManager';
@@ -8,15 +8,19 @@ import { SubscriberClass } from './SubscriberClass';
 import { Http2BufferClass } from './Http2Buffer';
 import { AvSessionManager } from './AvSessionManager';
 import backgroundTaskManager from '@ohos.resourceschedule.backgroundTaskManager';
-import { wantAgent } from '@kit.AbilityKit';
-import { PlayStateType, songItemType } from '../model';
+import { common, wantAgent } from '@kit.AbilityKit';
+import { PlayStateType, songItemType } from '../model/playState';
+import { MMKV } from '@tencent/mmkv';
 
 let subscriber: commonEventManager.CommonEventSubscriber;
+let mmkv = MMKV.defaultMMKV();
 
 @ObservedV2
 export default class AVPlayerClass {
   private static instance: AVPlayerClass = new AVPlayerClass();
   private preferencesInstance: PreferenceManager = PreferenceManager.getInstance();
+  private context: common.UIAbilityContext | undefined = AppStorage.get('context');
+
   // 1.创建一个播放器
   player: null | media.AVPlayer = null;
   // 节流阀标识
@@ -31,7 +35,7 @@ export default class AVPlayerClass {
   }
 
   // 2.初始化
-  async init() {
+  async   init() {
     // 监听卡片创建的事件
     SubscriberClass.subscribe(PublishEventType.CARD_PUBLISH, subscriber as commonEventManager.CommonEventSubscriber, (event) => {
       switch (event) {
@@ -43,30 +47,16 @@ export default class AVPlayerClass {
           break;
         default:
         // event是卡片ID
-          PreferenceManager.getInstance().setValue<string>(FORM_ID_KEY, event);
+          mmkv.encodeString(FORM_ID_KEY, event);
+          //PreferenceManager.getInstance().setValue<string>(FORM_ID_KEY, event);
       }
     });
     this.player = await media.createAVPlayer();
-    // 读取首选项的状态，并且更新（防止应用强杀导致的状态不一致）
-    let playState: PlayStateType | null = await this.preferencesInstance.getValue<PlayStateType>(PLAY_KEY)
-    //let playState: PlayStateType = PersistenceV2.connect(PlayStateType,SONG_KEY, () => new PlayStateType())!
-    //console.log('updateState av',playState.time, playState.url, playState.playList.length, playState.playIndex)
-    if (playState !== null) {
-      /*playState.isPlay = false;
-      this.currentSong.img = playState.img;
-      this.currentSong.name = playState.name;
-      this.currentSong.author = playState.author;
-      this.currentSong.url = playState.url;
-      this.currentSong.playList = playState.playList;
-      this.currentSong.playIndex = playState.playIndex;
-      this.currentSong.duration = playState.duration;
-      this.currentSong.isPlay = playState.isPlay;
-      this.currentSong.playMode = playState.playMode;
-      this.currentSong.time = playState.time;*/
-      this.currentSong = playState;
-      // 回写首选项
-      this.preferencesInstance.setValue<PlayStateType>(PLAY_KEY, playState);
-    }
+    this.startBackgroundTask();
+
+    // 读取首选项的状态，并且更新（防止应用强杀导致的状态不一致)
+    //this.currentSong = PersistenceV2.connect(PlayStateType, SONG_KEY, () => new PlayStateType())!;
+    //console.log('updateState test6',JSON.stringify(this.currentSong))
 
     // 监听播放器的状态
     this.player.on('stateChange', (state) => {
@@ -118,7 +108,6 @@ export default class AVPlayerClass {
 
   // 单曲播放
   async singlePlay(song: songItemType) {
-    this.startBackgroundTask();
     this.currentSong.img = song.img
     this.currentSong.name = song.name
     this.currentSong.author = song.author
@@ -160,7 +149,6 @@ export default class AVPlayerClass {
         await this.changePlay();
       }
     }
-    //PersistenceV2.save(SONG_KEY)
     AvSessionManager.setAvPlayBackState(); // 设置状态
   }
 
@@ -268,15 +256,21 @@ export default class AVPlayerClass {
   // 开启后台长时间任务
   async startBackgroundTask() {
     //会话对象只要存在就不用开启
-    if( AvSessionManager.session.sessionId){
+    /*if( AvSessionManager.session.sessionId){
       return
+    }*/
+    if (!this.context) {
+      console.error('startContinuousTask failed', `context undefined`);
+      return;
     }
+    console.log(`contextData:` ,this.context.abilityInfo.bundleName, this.context.abilityInfo.name,
+      "and ", (this.context), " and ", getContext(), " === ", this.context === getContext() );
     try {
       let wantAgentInfo: wantAgent.WantAgentInfo = {
         wants: [
           {
-            bundleName: 'com.example.heimacloudmusic',
-            abilityName: 'EntryAbility'
+            bundleName: this.context.abilityInfo.bundleName,
+            abilityName: this.context.abilityInfo.name
           }
         ],
         actionType: wantAgent.OperationType.START_ABILITY,
@@ -285,29 +279,42 @@ export default class AVPlayerClass {
       }
       const want = await wantAgent.getWantAgent(wantAgentInfo)
       //申请长时任务
-      await backgroundTaskManager.startBackgroundRunning(getContext(), backgroundTaskManager.BackgroundMode.AUDIO_PLAYBACK, want)
+      await backgroundTaskManager.startBackgroundRunning(this.context, backgroundTaskManager.BackgroundMode.AUDIO_PLAYBACK, want)
     }catch (e){
       AlertDialog.show({message: e.message})
+    }
+  }
+
+  public stopContinuousTask(context: common.UIAbilityContext): void {
+    try {
+      backgroundTaskManager.stopBackgroundRunning(context).then(() => {
+        console.info('this AVPlayer: ', 'stopBackgroundRunning succeeded');
+      }).catch((error: BusinessError) => {
+        console.error('this AVPlayer: ', `stopBackgroundRunning failed Cause: code ${error.code}`);
+      });
+    } catch (error) {
+      console.error(`stopBackgroundRunning failed. message ${(error as BusinessError).message}`);
     }
   }
 
   private async updateState() {
     if(this.timer === -1){
       console.log(`logdate:` , `update`);
-      // 更新首选项
       this.currentSong.img = this.currentSong.playList[this.currentSong.playIndex].img
       this.currentSong.name = this.currentSong.playList[this.currentSong.playIndex].name
       this.currentSong.author = this.currentSong.playList[this.currentSong.playIndex].author
       this.currentSong.url = this.currentSong.playList[this.currentSong.playIndex].url
 
-      this.preferencesInstance.setValue<PlayStateType>(PLAY_KEY, this.currentSong)
+      //this.preferencesInstance.setValue<PlayStateType>(PLAY_KEY, this.currentSong)
       // 更新到卡片
-      const id = await this.preferencesInstance.getValue<string>(FORM_ID_KEY)
+      const id = mmkv.decodeString(FORM_ID_KEY)
+      //const id = await this.preferencesInstance.getValue<string>(FORM_ID_KEY)
       console.log("testTag appForm" + id)
-      Http2BufferClass.get(this.currentSong.img, getContext(), (res) => {
+      Http2BufferClass.get(this.currentSong.img, this.context!, (res) => {
         console.log("testTag appForm" + JSON.stringify(res))
         formProvider.updateForm(id, formBindingData.createFormBindingData({
           playState: this.currentSong,
+          songName: this.currentSong.name,
           fileName: res.fileName,
           //必须要传的
           formImages:res.formImages

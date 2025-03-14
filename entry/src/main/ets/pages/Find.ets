@@ -1,15 +1,40 @@
-import { songItemType } from '../model'
-import { songs } from '../model/MusicConstants'
+import { songs, swiperList } from '../model/MusicConstants'
+import { songItemType } from '../model/playState'
 import AVPlayerClass from '../utils/AVPlayerClass'
 
 @Entry
 @ComponentV2
 struct Find {
   @Local AVPlayer: AVPlayerClass = AVPlayerClass.getInstance()
+
+  @Builder
+  SwiperComponent() {
+    Row() {
+      Swiper() {
+        ForEach(swiperList, (item: string) => {
+          Row() {
+            Image(item)
+              .width('100%')
+          }
+          .borderRadius(8)
+          .clip(true)
+        })
+      }
+      .margin(8)
+      .autoPlay(true)
+
+    }
+    .width('100%')
+    .padding(12)
+  }
+
   build() {
     Column() {
+      this.SwiperComponent()
+
       Row() {
-        Text('猜你喜欢').fontColor('#eaeaec')
+        Text('猜你喜欢')
+          .fontColor($r('app.color.font_color'))
       }
       .padding(24)
       .width('100%')
@@ -26,7 +51,8 @@ struct Find {
                 }
 
                 Column({ space: 12 }) {
-                  Text(item.name).fontColor('#e9e9e7')
+                  Text(item.name)
+                    .fontColor($r('app.color.font_color'))
                   Row({ space: 4 }) {
                     Text('VIP')
                       .fontSize(10)
@@ -79,6 +105,7 @@ struct Find {
       }
       .layoutWeight(1)
     }
+    .backgroundColor($r('app.color.app_background_color'))
     .width('100%')
     .height('100%')
   }

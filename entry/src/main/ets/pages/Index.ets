@@ -1,5 +1,4 @@
-import { PlayStateType, TabClass } from '../model'
-import { PLAY_KEY, PreferenceManager } from '../utils/PreferencesManager'
+import { TabClass } from '../model/TabClass'
 import { SONG_KEY } from '../constants/EventConstants'
 import { tabsData } from '../model/MusicConstants'
 import Find from './Find'
@@ -9,6 +8,10 @@ import SongList from './SongList'
 import PlayerNav from '../components/playerNav'
 import { PersistenceV2, router } from '@kit.ArkUI'
 import Recommend from './Recommend'
+import { PlayStateType } from '../model/playState'
+import AVPlayerClass from '../utils/AVPlayerClass'
+import { AvSessionManager } from '../utils/AvSessionManager'
+import { common } from '@kit.AbilityKit'
 
 
 @Entry
@@ -17,37 +20,29 @@ struct HomeIndex {
   @Local currentName: string = 'recommend'
   @Local opacityNum: number = 1
   @Local playState: PlayStateType = PersistenceV2.connect(PlayStateType, SONG_KEY, () => new PlayStateType())!
+  @Local currentIndex: number = 0
   //private preferencesInstance: PreferenceManager = PreferenceManager.getInstance()
+  private context: common.UIAbilityContext | undefined = AppStorage.get('context');
 
 
   async aboutToAppear(): Promise<void> {
+
     /*emitter.on({ eventId: EmitEventType.UPDATE_STATE}, data => {
       console.log('updateState',JSON.stringify(data.data?.playState))
       if(data.data && data.data?.playState){
         this.playState = data.data?.playState
       }
     })*/
-    //输出播放状态
-    this.playState = PersistenceV2.connect(PlayStateType, SONG_KEY, () => new PlayStateType())!
-    console.log('updateState index',this.playState.time, " and ", this.playState.playList.length, this.playState.playIndex)
-/*
-    this.preferencesInstance.getValue<PlayStateType>(PLAY_KEY).then((data) => {
-      if( data && data.playList.length > 0){
-        this.playState.img = (data as PlayStateType).img
-        this.playState.name = (data as PlayStateType).name
-        this.playState.author = (data as PlayStateType).author
-        this.playState.isPlay = (data as PlayStateType).isPlay
-        this.playState.playList = (data as PlayStateType).playList
-        this.playState.playIndex = (data as PlayStateType).playIndex
-        this.playState.url = (data as PlayStateType).url
-        this.playState.playMode = (data as PlayStateType).playMode
-        this.playState.time = (data as PlayStateType).time
-        this.playState.duration = (data as PlayStateType).duration
-      }
-      this.isLoad = true
-    })
-*/
   }
+
+  aboutToDisappear(): void {
+    if( AvSessionManager.session.sessionId && this.context){
+      AVPlayerClass.getInstance().stopContinuousTask( this.context)
+    }
+    /*this.playState.isPlay = false;
+    PersistenceV2.save(SONG_KEY)*/
+  }
+
 
   // tabBar组件
   @Builder
@@ -76,14 +71,12 @@ struct HomeIndex {
     .justifyContent(FlexAlign.SpaceBetween)
   }
 
-  aboutToDisappear(): void {
-    PersistenceV2.save(SONG_KEY)
-  }
+
 
   build() {
     Column() {
       Stack({ alignContent: Alignment.Bottom }) {
-        Tabs({ barPosition: BarPosition.End }) {
+        Tabs({ barPosition: BarPosition.End,index: this.currentIndex}) {
           ForEach(tabsData, (item: TabClass) => {
             TabContent() {
               if (item.name === 'recommend') {
@@ -104,7 +97,8 @@ struct HomeIndex {
         }
         .barHeight(60)
         .onChange(index => {
-          this.currentName = tabsData[index].name
+          this.currentIndex = index
+          this.currentName = tabsData[this.currentIndex].name
         })
 
         // 背景播放
@@ -121,7 +115,7 @@ struct HomeIndex {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#3c3f41')
+    .backgroundColor($r('app.color.app_background_color'))
     .opacity(this.opacityNum)
     .padding({
       top: AppStorage.get("topHeight") as LengthMetrics,
